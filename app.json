@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "냉장고 한 끼",
+    "slug": "fridge-mate",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": { "backgroundColor": "#F7F7F2" },
+    "ios": { "supportsTablet": true },
+    "android": { "adaptiveIcon": { "backgroundColor": "#F7F7F2" } },
+    "plugins": [
+      ["expo-image-picker", {
+        "photosPermission": "냉장고 사진에서 식재료를 등록하기 위해 사진 접근 권한이 필요합니다.",
+        "cameraPermission": "냉장고 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다."
+      }]
+    ]
+  }
+}

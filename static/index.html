@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f0e7" />
+    <title>Eatlicious · 내 냉장고</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/scale.css" />
+    <link rel="stylesheet" href="/editorial.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="main-area">
+        <header class="topbar">
+          <a class="brand" href="/" aria-label="Eatlicious 홈으로 이동">Eatlicious<span>.</span></a>
+          <nav class="side-nav" aria-label="주 메뉴">
+            <button class="nav-item active" data-view="home">오늘의 냉장고</button>
+            <button class="nav-item" data-view="fridge">내 식재료</button>
+            <button class="nav-item" data-view="recipes">레시피</button>
+          </nav>
+          <div class="top-actions"><span class="today-date" id="today-date"></span><button class="avatar-button" aria-label="프로필">🥣</button></div>
+          <span id="crumb-current" hidden>오늘의 냉장고</span>
+        </header>
+
+        <section id="home-view" class="view active-view">
+          <div class="welcome-row"><div class="welcome-copy-block"><p class="eyebrow">MY KITCHEN JOURNAL · <span id="welcome-date"></span></p><h1>냉장고를 열면<br />오늘의 <em>메뉴</em>가<br />보여요.</h1><p class="welcome-copy">사진 한 장으로 우리 집 재료를 기록하고,<br />지금 있는 것들로 맛있는 한 끼를 찾아보세요.</p>
+            <button class="photo-cta" id="photo-open"><span class="camera-icon">＋</span><span><b>냉장고 사진으로 재료 기록하기</b><small>카메라로 찍거나 앨범에서 선택해요</small></span><span class="cta-arrow">↗</span></button><small class="photo-note">사진을 확인한 뒤 재료를 골라 등록할 수 있어요.</small></div>
+            <div class="editorial-fridge-art" aria-hidden="true"><div class="editorial-shelves"><span>🥛　🧃</span><span>🥬　🍅</span><span>🥕　🥒</span><span>🍋　🥚</span></div><small>WHAT'S IN YOUR FRIDGE?</small></div>
+          </div>
+          <div class="pantry-overview"><span>내 냉장고</span><b id="ingredient-count">0<span>가지</span></b><i>·</i><span>먼저 먹기</span><b id="urgent-count">0<span>가지</span></b><i>·</i><span>추천 메뉴</span><b id="recipe-count">0<span>개</span></b><button data-go="fridge">식재료 보기 ↗</button></div>
+          <div class="content-grid">
+            <section class="panel ingredient-panel"><div class="panel-heading"><div><p class="eyebrow">USE THESE FIRST</p><h2>오늘 챙겨 먹으면 좋은 재료</h2></div><button class="text-link" data-go="fridge">전체 재료 ↗</button></div><div id="urgent-list" class="ingredient-list"></div></section>
+            <section class="panel recipe-panel"><div class="panel-heading"><div><p class="eyebrow">A LITTLE INSPIRATION</p><h2>오늘은 이 메뉴 어때요?</h2></div><button class="text-link" data-go="recipes">레시피 더 보기 ↗</button></div><div id="home-recipes" class="recipe-list"></div></section>
+          </div>
+        </section>
+
+        <section id="fridge-view" class="view">
+          <div class="page-title-row"><div><p class="eyebrow">MY INGREDIENTS</p><h1>내 식재료</h1><p class="page-subtitle">보관 중인 재료와 소비 권장일을 관리해요.</p></div><button class="primary-button" id="add-open"><span>＋</span> 재료 직접 추가</button></div>
+          <div class="photo-upload-strip"><div class="upload-illustration">📷</div><div class="upload-copy"><b>냉장고 사진으로 재료를 기록해요</b><span>AI가 식재료를 찾아요. 인식 결과를 확인한 뒤 등록할 수 있어요.</span></div><button class="secondary-button" id="photo-open-2">사진 선택하기 <span>↗</span></button></div>
+          <div class="filter-row"><button class="filter-chip active" data-ingredient-filter="all" aria-pressed="true">모든 재료 <span id="all-count">0</span></button><button class="filter-chip" data-ingredient-filter="urgent" aria-pressed="false"><span class="orange-dot"></span> 먼저 먹기 <span id="filter-urgent-count">0</span></button><div class="filter-spacer"></div><span class="sort-label">소비 권장일 순</span></div>
+          <div id="all-ingredients" class="all-ingredients"></div>
+          <p class="disclaimer">상태는 입력된 소비 권장일 기준 안내예요. 실제 신선도나 부패 여부를 판정하지 않습니다.</p>
+        </section>
+
+        <section id="recipes-view" class="view">
+          <div class="page-title-row"><div><p class="eyebrow">YOUR FRIDGE, YOUR MENU</p><h1>레시피 찾기</h1><p class="page-subtitle">내 재료와 먼저 소비할 재료를 반영했어요.</p></div></div>
+          <div class="recipe-filter"><span class="filter-check">✓</span> 내 냉장고 재료를 활용한 추천 <span id="recipe-ingredient-count" class="filter-total">0개 재료 기준</span></div>
+          <div id="all-recipes" class="recipe-cards"></div>
+        </section>
+      </main>
+    </div>
+
+    <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp,image/gif" capture="environment" hidden />
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-backdrop" id="ingredient-modal" hidden>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" id="modal-close" aria-label="닫기">×</button>
+        <p class="eyebrow">ADD INGREDIENT</p><h2 id="modal-title">재료를 등록해요</h2><p class="modal-copy">구매일과 소비 권장일을 적어두면 먼저 쓸 재료를 알려드려요.</p>
+        <form id="ingredient-form">
+          <label>식재료 이름<input name="name" placeholder="예: 방울토마토" required maxlength="40" /></label>
+          <div class="form-two"><label>수량<input name="quantity" placeholder="예: 1팩" maxlength="24" /></label><label>구매일<input name="purchased_at" type="date" required /></label></div>
+          <label>소비 권장일<input name="expires_at" type="date" required /></label>
+          <button class="primary-button submit-button" id="ingredient-submit" type="submit">냉장고에 담기 <span>→</span></button>
+        </form>
+      </section>
+    </div>
+    <div class="modal-backdrop recipe-backdrop" id="recipe-modal" hidden>
+      <section class="recipe-modal-card" role="dialog" aria-modal="true" aria-labelledby="recipe-detail-title">
+        <button class="modal-close" id="recipe-close" aria-label="레시피 닫기">×</button>
+        <div class="recipe-detail-hero"><span id="recipe-detail-emoji" aria-hidden="true">🍳</span><div><p class="eyebrow">TODAY'S RECIPE</p><h2 id="recipe-detail-title"></h2><p id="recipe-detail-summary"></p></div><span class="recipe-detail-time" id="recipe-detail-time"></span></div>
+        <div class="recipe-detail-content">
+          <section><h3>필요한 재료</h3><ul class="recipe-detail-ingredients" id="recipe-detail-ingredients"></ul></section>
+          <section><h3>만드는 순서</h3><ol class="recipe-detail-steps" id="recipe-detail-steps"></ol></section>
+        </div>
+      </section>
+    </div>
+    <div class="photo-backdrop" id="photo-modal" hidden>
+      <section class="photo-card" role="dialog" aria-modal="true" aria-labelledby="photo-title">
+        <button class="modal-close" id="photo-close" aria-label="닫기">×</button>
+        <p class="eyebrow">FRIDGE PHOTO</p><h2 id="photo-title">냉장고를 한 장 찍어봐요</h2><p class="modal-copy">선택한 사진은 AI 식재료 인식을 위해 OpenAI로 전송돼요. 인식 결과는 틀릴 수 있으니 확인 후 등록해 주세요.</p>
+        <img id="photo-preview" alt="선택한 냉장고 사진 미리보기" hidden />
+        <button class="secondary-button choose-photo" id="choose-photo">카메라 열기 또는 사진 선택 <span>↗</span></button>
+        <button class="primary-button" id="recognize-photo">사진에서 재료 찾기 <span>✦</span></button>
+        <p class="recognition-status" id="recognition-status" role="status" aria-live="polite" hidden></p>
+        <div class="recognition-results" id="recognition-results" hidden>
+          <b>인식한 재료를 확인해 주세요</b>
+          <div class="recognized-list" id="recognized-list"></div>
+          <div class="recognition-dates"><label>구매일<input id="recognized-purchased" type="date" /></label><label>소비 권장일<input id="recognized-expires" type="date" /></label></div>
+          <button class="primary-button" id="add-recognized" disabled>선택한 재료 등록 <span>→</span></button>
+        </div>
+      </section>
+    </div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
